@@ -12,7 +12,7 @@
             </div>
         </div>
     </div>
-    <div class="form-group">
+    <div class="container">
         <div class="col-sm-offset-3 col-sm-6">
             <button type="submit" class="btn btn-default">
                 <a href="{{ route('articles.create') }}">
@@ -21,39 +21,49 @@
             </button>
         </div>
     </div>
-    <!-- Текущие задачи -->
-    @if (count($articles) > 0)
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            Текущая задача
+    <br/>
+    <div class="form-group">
+        <!-- Текущие задачи -->
+        @if (count($articles) > 0)
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Новости
+            </div>
+            <div class="panel-body">
+                <table class="table table-striped articles-table">
+                    <!-- Заголовок таблицы -->
+                    <thead>
+                        <tr>
+                            <th>Название</th>
+                            <th>Действие</th>
+                        </tr>
+                    </thead>
+                    <!-- Тело таблицы -->
+                    <tbody>
+                        @foreach ($articles as $article)
+                        <tr>
+                            <!-- Имя задачи -->
+                            <td class="table-text">
+                                <div>{{ $article->name }}</div>
+                            </td>
+                            <td>
+                                <form action="{{ url('article/'.$article->id) }}" method="POST">
+                                    {{ csrf_field() }}
+                                    {{ method_field('DELETE') }}
+
+                                    <button type="submit" id="delete-article-{{ $article->id }}" class="btn btn-danger">
+                                        <i class="fa fa-btn fa-trash"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <div class="panel-body">
-            <table class="table table-striped articles-table">
-                <!-- Заголовок таблицы -->
-                <thead>
-                    <tr>
-                        <th>articles</th>
-                        <th>articles</th>
-                    </tr>
-                </thead>
-                <!-- Тело таблицы -->
-                <tbody>
-                    @foreach ($articles as $article)
-                    <tr>
-                        <!-- Имя задачи -->
-                        <td class="table-text">
-                            <div>{{ $articles->name }}</div>
-                        </td>
-                        <td>
-                            <!-- TODO: Кнопка Удалить -->
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
+        @endif
     </div>
-    @endif
     <div class="form-group">
         <div class="col-sm-offset-3 col-sm-6">
             <button type="submit" class="btn btn-default">
