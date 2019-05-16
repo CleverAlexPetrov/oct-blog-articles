@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests;
+use App\Article;
 
 class ArticleController extends Controller {
 
@@ -16,8 +17,11 @@ class ArticleController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() {
-        return view('articles.index');
+    public function index(Request $request) {
+        $articles = $request->user()->articles()->get();
+        return view('articles.index',[
+            'articles' => $articles,
+        ]);
     }
 
     /**
@@ -38,7 +42,7 @@ class ArticleController extends Controller {
     public function store(Request $request) {
         $this->validate($request, [
             'name' => 'required|max:255',
-            'text' => 'required|max:255',
+            'text' => 'required',
         ]);
 
         $request->user()->articles()->create([

@@ -11,7 +11,9 @@ class Article extends Model
    *
    * @var array
    */
-  protected $fillable = ['name','text'];
+  protected $fillable = [
+      'name','text',
+      ];
   
   /**
    * Получить пользователя - владельца данной задачи
